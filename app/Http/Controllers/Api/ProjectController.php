@@ -19,6 +19,11 @@ class ProjectController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get();
         return response()->json($projects);
+
+        // Controllando tutti i progetti, invoco il getter dell'image scritto nel Model
+        foreach ($projects as $project) {
+            if ($project->image) $project->image = url('storage/' . $project->image);
+        }
     }
 
     /**
