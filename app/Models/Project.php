@@ -15,6 +15,9 @@ class Project extends Model
     // FILLABLE
     protected $fillable = ['type_id', 'title', 'text', 'image', 'is_published'];
 
+    // Per avere sempre le categorie e type
+    protected $with = ['types', 'technologies'];
+
     // RELAZIONI *****************
     // RELAZIONE CON TABLE TYPES ONE TO MANY
     public function type()
