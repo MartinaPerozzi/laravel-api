@@ -76,6 +76,8 @@ class Project extends Model
     // FUNZIONE GETTER PER IMMAGINI- per avere sempre o il percorso dell'immagine caricato o un placeholder qual'ora non fosse stata caricata nessuna immagine
     public function getImageUri()
     {
-        return $this->image ? asset('storage/' . $this->image) : 'https://picsum.photos/300/500';
+        return $this->image ? url('storage/' . $this->image) : 'https://picsum.photos/300/500';
+
+        // return $this->image ? asset('storage/' . $this->image) : 'https://picsum.photos/300/500'; asset non funziona come url
     }
 }

@@ -18,12 +18,12 @@ class ProjectController extends Controller
         $projects = Project::where('is_published', true)
             ->orderBy('updated_at', 'DESC')
             ->get();
-        return response()->json($projects);
-
         // Controllando tutti i progetti, invoco il getter dell'image scritto nel Model
         foreach ($projects as $project) {
-            if ($project->image) $project->image = url('storage/' . $project->image);
+            // if ($project->image) $project->image = url('storage/' . $project->image);
+            $project->image = $project->getImageUri();
         }
+        return response()->json($projects);
     }
 
     /**
