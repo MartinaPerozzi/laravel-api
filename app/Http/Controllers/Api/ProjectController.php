@@ -46,7 +46,12 @@ class ProjectController extends Controller
      */
     public function show($slug)
     {
-        $project = Project::where('slug', $slug)->with('category', 'tags')->first();
+        // Query per il progetto -> JOIN delle table type e technologies
+        $project = Project::where('slug', $slug)->with('type', 'technologies')->first();
+
+        $project->image = $project->getImageUri();
+
+        // SE non ci sono risultati -> errore 404
         if (!$project) return response(null, 404);
 
         return response()->json($project);

@@ -16,7 +16,7 @@ use App\Http\Controllers\Api\ProjectController;
 */
 
 // Importare apiResource e chi lo controlla-
-Route::apiResource('projects', ProjectController::class);
+Route::apiResource('projects', ProjectController::class)->except('store', 'update', 'destroy');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
