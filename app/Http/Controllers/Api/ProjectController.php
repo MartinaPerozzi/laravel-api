@@ -17,7 +17,7 @@ class ProjectController extends Controller
     {
         $projects = Project::where('is_published', true)
             ->orderBy('updated_at', 'DESC')
-            ->paginate(6);
+            ->paginate(8);
         // Controllando tutti i progetti, invoco il getter dell'image scritto nel Model
         foreach ($projects as $project) {
             $project->text = $project->getAbstract();
@@ -50,6 +50,7 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->with('type', 'technologies')->first();
 
         $project->image = $project->getImageUri();
+        $project->text = $project->text;
 
         // SE non ci sono risultati -> errore 404
         if (!$project) return response(null, 404);
