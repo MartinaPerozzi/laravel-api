@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\Type;
 
 class ProjectController extends Controller
 {
@@ -48,6 +49,7 @@ class ProjectController extends Controller
     {
         // Query per il progetto -> JOIN delle table type e technologies
         $project = Project::where('slug', $slug)->with('type', 'technologies')->first();
+        // Cerca la colonna slug sul DB dove il valore corrisponde allo slug che arriva dall'API.
 
         $project->image = $project->getImageUri();
         $project->text = $project->text;
@@ -79,5 +81,19 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function getProjectsByType($type_id)
+    {
+        $projects = Project::where('type_id', $type_id)
+            ->where('is_published', true)
+            ->get('type', 'technologies')
+            ->orderBy('updated_at', 'DESC')
+            ->paginate(6);
+
+        $type = Type::find($type_id);
+        foreach ($projects as $project) {
+            $project->image = $project->getImageUri();
+        }
+        return response()->json(compact('projects', 'type'));
     }
 }

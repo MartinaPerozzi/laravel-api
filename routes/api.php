@@ -18,6 +18,9 @@ use App\Http\Controllers\Api\ProjectController;
 // Importare apiResource e chi lo controlla-
 Route::apiResource('projects', ProjectController::class)->except('store', 'update', 'destroy');
 
+// Rotta Categorie
+Route::get('projects/{type_id}/type', [ProjectController::class, 'getProjectByType']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
