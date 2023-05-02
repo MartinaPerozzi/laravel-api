@@ -35,6 +35,7 @@ Route::middleware('auth')
     ->prefix('/admin')
     ->name('admin.')
     ->group(function () {
+        // soft delete
         Route::get('projects/trash', [ProjectController::class, 'trash'])->name('projects.trash');
         Route::put('projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
         Route::delete('projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.force-delete');

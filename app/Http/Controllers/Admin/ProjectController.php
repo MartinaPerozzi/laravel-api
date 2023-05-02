@@ -152,6 +152,7 @@ class ProjectController extends Controller
         // \Log::debug('update');
         $data = $this->validation($request->all());
         // \Log::debug($data);
+        $start_value = $project->is_published;
 
         if (Arr::exists($data, 'image')) {
             // \Log::debug('prova');
@@ -178,6 +179,12 @@ class ProjectController extends Controller
         $data['is_published'] = $request->has('is_published') ? 1 : 0;
         $project->save();
 
+        // SE lo stato 'pubblicato' è diverso da quello di partenza **************
+        if ($start_value != $project->is_published) {
+            // Crea e invia email
+            $this->sendPublishedEmail($project);
+        }
+
         return to_route('admin.projects.show', $project)
             ->with('message_type', "success")
             ->with('message-content', "Il progetto con ID: $project->title è stato modificato con successo!");
@@ -199,7 +206,7 @@ class ProjectController extends Controller
         }
 
         $project->delete();
-        return to_route('admin.projects.index')
+        return to_route('admin.projects.index', ['is_published' => 1]) //gli dico che voglio che is_published sia 1.
             ->with('message_type', "danger")
             ->with('message-content', "Il progetto con $id_project spostato nel cestino!");
     }
