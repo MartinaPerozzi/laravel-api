@@ -25,7 +25,7 @@ class ProjectController extends Controller
             // if ($project->image) $project->image = url('storage/' . $project->image);
             $project->image = $project->getImageUri();
         }
-        return response()->json($projects);
+        return response()->json(compact('projects'));
     }
 
     public function show($slug)
