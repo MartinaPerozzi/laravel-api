@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\ProjectController;
 Route::apiResource('projects', ProjectController::class)->except('store', 'update', 'destroy');
 
 // Rotta Categorie
-Route::get('projects/{type_id}/type', [ProjectController::class, 'getProjectByType']);
+Route::get('/type/{type_id}/projects', [ProjectController::class, 'getProjectsByType']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

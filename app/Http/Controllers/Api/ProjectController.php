@@ -28,23 +28,6 @@ class ProjectController extends Controller
         return response()->json($projects);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($slug)
     {
         // Query per il progetto -> JOIN delle table type e technologies
@@ -60,40 +43,24 @@ class ProjectController extends Controller
         return response()->json($project);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function getProjectsByType($type_id)
     {
+        // Prendo tutti i progetti
         $projects = Project::where('type_id', $type_id)
             ->where('is_published', true)
-            ->get('type', 'technologies')
+            ->with('type', 'technologies')
             ->orderBy('updated_at', 'DESC')
             ->paginate(6);
 
+        // Prendo il type_id relativo ad ogni progetto.
         $type = Type::find($type_id);
+
+        //// Per ogni progetto che ho recuperato prendo l'immagine:
         foreach ($projects as $project) {
             $project->image = $project->getImageUri();
         }
+        // Mi passo entrambe le info con compact
         return response()->json(compact('projects', 'type'));
     }
 }
