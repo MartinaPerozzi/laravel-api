@@ -36,6 +36,7 @@ class Project extends Model
     {
         return substr($this->text, 0, $max) . "...";
     }
+
     // FUNZIONE GESTIONE SLUG-Funzione statica-genera uno slug unico che aggiunge un "-" più un numero crescente se riscontra nel DataBase uno slug uguale
     public static function generateUniqueSlug($title)
     {
@@ -48,7 +49,7 @@ class Project extends Model
             // Allora aggiungi allo slug originale un trattino e un numero
             $possible_slug = $original_slug . "-" . $i;
             // Riprendi nel singolo progetto lo slug e il possibile slug; Modello 'eloquent'che matcha la mia tabella db- questa è una QUERY dove chiedo al model Project che è un 'macth' della mia tabella dove slug è uguale a possible slug- get è come SELECT*
-            $projects = Project::where('slug', '=', $possible_slug)->get();
+            $projects = Project::where('slug', $possible_slug)->get();
             // Incrementa di uno il numero ogni volta
             $i++;
         }

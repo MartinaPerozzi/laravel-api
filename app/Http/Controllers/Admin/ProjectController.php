@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Log;
 // Helper per lo Storage
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+// EMAIL
+use App\Mail\PublishProjectMail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -43,8 +47,6 @@ class ProjectController extends Controller
 
 
         // $projects = Project::where('is_published', '=', $is_published)->orderBy($sort, $order)->paginate(4)->withQueryString();
-
-
 
         return view('admin.projects.index', compact('projects', 'sort', 'order'));
     }
@@ -95,6 +97,12 @@ class ProjectController extends Controller
 
         //salvare i tag delle technologies
         if (Arr::exists($data, 'technologies')) $project->technologies()->attach($data['technologies']);
+
+        // EMail
+        if ($project->is_published) {
+            // Crea e invia email
+            $this->sendPublishedEmail($project);
+        };
 
         return to_route('admin.projects.show', $project)
             ->with('message_type', "success")
@@ -261,5 +269,13 @@ class ProjectController extends Controller
         return to_route('admin.projects.index')
             ->with('message_type', "success")
             ->with('message-content', "Il progetto con ID: $id_message è stato ripristinato correttamente!");;
+    }
+
+    // * Funzione che istanzia nuova email e invia nuova email
+    private function sendPublishedEmail(Project $project)
+    {
+        $mail = new PublishProjectMail($project);
+        $user_email = Auth::user()->email;
+        Mail::to($user_email)->send($mail);
     }
 }
