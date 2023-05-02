@@ -4,7 +4,15 @@
 @section('content')
     <div class="container">
         <div class="">
-            <a class="btn btn-primary mt-3 mb-3" href="{{ route('admin.projects.index') }}"> Go Back</a>
+            {{-- Se stai modificando i progetti pubblicati torna li alla fine della modifica --}}
+            @if ($project->is_published == 1)
+                <a class="btn btn-primary mt-3 mb-3" href="{{ route('admin.projects.index', ['is_published' => 1]) }}"> Go
+                    Back</a>
+            @else
+                {{-- sennò vai alla bozze --}}
+                <a class="btn btn-primary mt-3 mb-3" href="{{ route('admin.projects.index', ['is_published' => 0]) }}"> Go
+                    Back</a>
+            @endif
             <div class="card card-body">
                 <div class="d-flex">
                     <div>

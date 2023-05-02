@@ -17,7 +17,11 @@
 @endsection
 @section('content')
     <div class="container">
+
         <h1 class="mb-3">Projects</h1>
+        {{-- 
+        <h1>Bozze</h1> --}}
+
         <table class="table">
             <thead>
                 <tr class="table-primary">
