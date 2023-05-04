@@ -145,6 +145,7 @@
             </div>
         </div>
     </section>
+    <script></script>
 @endsection
 
 @section('scripts')

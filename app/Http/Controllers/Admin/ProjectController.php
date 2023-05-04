@@ -48,7 +48,7 @@ class ProjectController extends Controller
 
         // $projects = Project::where('is_published', '=', $is_published)->orderBy($sort, $order)->paginate(4)->withQueryString();
 
-        return view('admin.projects.index', compact('projects', 'sort', 'order'));
+        return view('admin.projects.index', compact('projects', 'sort', 'order', 'is_published'));
     }
 
     /**

@@ -58,10 +58,10 @@
                                      href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
                                  {{-- **** --}}
 
-                                 <a class="dropdown-item @if (request()->routeIs('admin.projects.index', ['is_published' => 1]))  @endif"
+                                 <a class="dropdown-item @if (isset($is_published) && $is_published == 1) active @endif"
                                      href="{{ route('admin.projects.index', ['is_published' => 1]) }}">{{ __('Projects') }}</a>
 
-                                 <a class="dropdown-item @if (request()->routeIs('admin.projects.index', ['is_published' => 0])) active @endif"
+                                 <a class="dropdown-item @if (isset($is_published) && $is_published == 0) active @endif"
                                      href="{{ route('admin.projects.index', ['is_published' => 0]) }}">{{ __('Bozze') }}</a>
 
                                  {{-- **** --}}
